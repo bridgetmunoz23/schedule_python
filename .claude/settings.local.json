@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(.venv/bin/python -)"
+      "Bash(.venv/bin/python -)",
+      "Bash(.venv/bin/jupyter nbconvert *)",
+      "Bash(.venv/bin/python build_portfolio.py)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ]
   }
 }
