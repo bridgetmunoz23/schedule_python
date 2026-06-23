@@ -266,19 +266,18 @@ def _mark_callouts(soup):
             p["class"] = (p.get("class") or []) + ["callout"]
 
 
-def _wrap_topics_callout(soup):
-    # put the Topics of Interest header + its list in a callout box
-    for p in soup.select(".jp-RenderedMarkdown p"):
+def _wrap_label_callouts(soup, labels=("Topics of Interest", "Key Findings")):
+    # put a bold-label header + its list in a callout box
+    for p in list(soup.select(".jp-RenderedMarkdown p")):
         child = next((c for c in p.children if getattr(c, "name", None)), None)
         if child is not None and child.name == "strong" \
-                and child.get_text(strip=True) == "Topics of Interest":
+                and child.get_text(strip=True) in labels:
             ul = p.find_next_sibling("ul")
             box = soup.new_tag("div", **{"class": "callout"})
             p.insert_before(box)
             box.append(p.extract())
             if ul is not None:
                 box.append(ul.extract())
-            break
 
 
 def build(src="analysis.html", dst="index.html"):
@@ -317,7 +316,7 @@ def build(src="analysis.html", dst="index.html"):
             grp[0].insert_after(btn)
 
     _mark_callouts(soup)
-    _wrap_topics_callout(soup)
+    _wrap_label_callouts(soup)
 
     soup.body.append(BeautifulSoup(FOOTER_HTML, "html.parser"))
     soup.body.append(BeautifulSoup(TOGGLE_SCRIPT, "html.parser"))
