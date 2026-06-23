@@ -281,7 +281,7 @@ def _wrap_topics_callout(soup):
             break
 
 
-def build(src="analysis.html", dst="portfolio.html"):
+def build(src="analysis.html", dst="index.html"):
     soup = BeautifulSoup(Path(src).read_text(), "html.parser")
     soup.head.append(BeautifulSoup(CUSTOM_CSS, "html.parser"))
 
