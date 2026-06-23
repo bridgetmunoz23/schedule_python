@@ -5,7 +5,8 @@
       "Bash(.venv/bin/jupyter nbconvert *)",
       "Bash(.venv/bin/python build_portfolio.py)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(.venv/bin/python -c ' *)"
     ]
   }
 }
