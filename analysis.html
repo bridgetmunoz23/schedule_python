@@ -7827,7 +7827,7 @@ a.anchor-link {
 <li><strong>Given variables:</strong> date, team, matchup (opponent + home/away), and result</li>
 <li>Each game arrives from <code>nba_api</code> as the following variables: the date, the two teams, who was home, and the result (W/L). These factors alone cannot holistically predict schedule difficulty. The intention of this project is to display the ways that only a few raw variables can be transformed and visualized, and to support the claim that games are won mostly by ability rather than an easier schedule.</li>
 </ul>
-<p><strong>This project turns 4 raw variables (date, team, matchup, result) into 9 engineered features, and predicts schedule difficulty using only those 9.</strong></p>
+<p><strong>This project turns 4 raw variables (date, team, matchup, result) into 10 engineered features covering rest, travel, opponent quality, and game context.</strong></p>
 <table>
 <thead>
 <tr>
@@ -7844,8 +7844,8 @@ a.anchor-link {
 </tr>
 <tr>
 <td><strong>Travel</strong></td>
-<td><code>consecutive_away_games</code>, <code>days_since_home_game</code></td>
-<td>2</td>
+<td><code>consecutive_away_games</code>, <code>days_since_home_game</code>, <code>travel_distance</code></td>
+<td>3</td>
 </tr>
 <tr>
 <td><strong>Opponent quality</strong></td>
@@ -7859,7 +7859,7 @@ a.anchor-link {
 </tr>
 </tbody>
 </table>
-<p>Every feature is taken from the schedule itself, no box-score or in-game stats are considered. The logistic SDS model uses exactly these 9 columns and nothing else, so a game's predicted difficulty depends only on rest, travel, opponent strength, and where it's played.</p>
+<p>Every feature is taken from the schedule itself (plus each team's home-city coordinates for travel), with no box-score or in-game stats considered. Nine of these feed the predictive model in Section Five; travel distance powers the travel and fairness analysis in Sections Three and Four.</p>
 </div>
 </div>
 </div>
@@ -8170,7 +8170,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Section-Three:-The-Travel-Tax">Section Three: The Travel Tax<a class="anchor-link" href="#Section-Three:-The-Travel-Tax">¶</a></h2><p>Every team plays 82 games, but they don't fly the same distance to do it. Travel is mostly fixed by geography, so it's the one part of the schedule the league can't equalize. The chart below shows average miles flown per season by team.</p>
+<h2 id="Section-Three:-The-Travel-Tax">Section Three: The Travel Tax<a class="anchor-link" href="#Section-Three:-The-Travel-Tax">¶</a></h2><p>Every team plays 82 games, but they don't fly the same distance to do it. Travel is mostly fixed by geography, so it's the one part of the schedule the league can't equalize. The chart below shows average miles flown per season by team, computed from each team's home-city coordinates.</p>
 </div>
 </div>
 </div>
@@ -8719,7 +8719,7 @@ Easiest 2025-26 schedule (avg SDS): HOU (0.481)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The multicollinearity here is actually a feature, not a bug. Because the league has equalized travel and rest so effectively, you can't separate schedule from team quality anymore. Overall, this project showed me truly how much multicollinearity exists in basketball data. Multicollinearity is the result of two independent variables having a strong relationship with each other, making the data uninterpretable or too nuanced to make a conclusion about. You'd expect the Knicks to win on a day trip to Philly after three rest days but lose the second game of a western road trip, but the data cannot support this with real confidence. There is an inseparable link between several of these measurable factors and somewhat immeasurable factors like rivalries, availability of training/resources in a given city, differences in attendance across arenas, and more. Still, I feel comfortable concluding from these variables and tests that the result of a game cannot be predicted with just these four variables. Travel's major role in the sports industry definitely has an effect on how players perform, but it changes the game for every team somewhat equally. Everyone in the league deals with constant travel in-season. If it's affecting one team's performance and not the other's, that's the competitive gap. To make an accurate hypothesis, however, you would need to both identify all factors that can influence a game prior to tip-off (many more than the ones I chose), and quantify or detangle the strong relationship these factors have to each other. For example, you might consider the length of a flight to the game and its impact on performance. However, all of these flights would be away games, making it hard to separate the away-game effect from the flight-length effect. This is where the multicollinearity is strongest in this project, and I hope in the future I can investigate this topic further considering these scopes and variables.</p>
+<p>The multicollinearity here is actually a feature, not a bug. Because the league has equalized rest and congestion so effectively, you can't separate schedule from team quality anymore. Overall, this project showed me truly how much multicollinearity exists in basketball data. Multicollinearity is the result of two independent variables having a strong relationship with each other, making the data uninterpretable or too nuanced to make a conclusion about. You'd expect the Knicks to win on a day trip to Philly after three rest days but lose the second game of a western road trip, but the data cannot support this with real confidence. There is an inseparable link between several of these measurable factors and somewhat immeasurable factors like rivalries, availability of training/resources in a given city, differences in attendance across arenas, and more. Still, I feel comfortable concluding from these variables and tests that the result of a game cannot be predicted with just these four variables. Travel's major role in the sports industry definitely has an effect on how players perform, but it changes the game for every team somewhat equally. Everyone in the league deals with constant travel in-season. If it's affecting one team's performance and not the other's, that's the competitive gap. To make an accurate hypothesis, however, you would need to both identify all factors that can influence a game prior to tip-off (many more than the ones I chose), and quantify or detangle the strong relationship these factors have to each other. For example, you might consider the length of a flight to the game and its impact on performance. However, all of these flights would be away games, making it hard to separate the away-game effect from the flight-length effect. This is where the multicollinearity is strongest in this project, and I hope in the future I can investigate this topic further considering these scopes and variables.</p>
 </div>
 </div>
 </div>
@@ -8750,7 +8750,7 @@ Easiest 2025-26 schedule (avg SDS): HOU (0.481)
 <h2 id="Notes">Notes<a class="anchor-link" href="#Notes">¶</a></h2><ul>
 <li>All game logs and schedules are from <code>nba_api.stats.endpoints.LeagueGameLog</code>, regular season only, 2013-14 through the most recent season. Graphs and models will automatically update upon completion of the 26-27 season.</li>
 <li>The SDS model uses logistic regression with standardized numeric features. Features and target definitions live in <code>features.py</code> and <code>model.py</code>.</li>
-<li>The schedule-driven wins visual standardizes opponent prior win percentage and replaces schedule features with their league average. This treats schedule fairness as the variable of interest while keeping who plays whom standardized.</li>
+<li>Travel distance is the great-circle miles between a team's consecutive game cities, computed from home-city coordinates hardcoded in <code>data.py</code>.</li>
 </ul>
 </div>
 </div>
