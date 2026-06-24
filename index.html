@@ -7941,7 +7941,10 @@ a.anchor-link {
   }
   .portfolio-section .jp-CodeCell .jp-Cell-inputWrapper { display: none; }
   .portfolio-section.show-code .jp-CodeCell .jp-Cell-inputWrapper { display: block; }
-  .code-toggle {
+
+  /* ---- Two-layer disclosure buttons (analyst stats + code) ---- */
+  .toggle-row { margin: 2px 0 20px; }
+  .toggle-btn {
     display: inline-block;
     background: white;
     border: 1px solid #2c6cb0;
@@ -7952,13 +7955,24 @@ a.anchor-link {
     font-size: 13px;
     font-weight: 500;
     font-family: inherit;
-    margin: 4px 0 20px;
+    margin: 0 8px 0 0;
     transition: background 0.15s, color 0.15s;
   }
-  .code-toggle:hover {
-    background: #2c6cb0;
-    color: white;
+  .toggle-btn:hover { background: #2c6cb0; color: white; }
+
+  /* ---- Analyst layer: hidden until "See statistical analysis" ---- */
+  .portfolio-section .stats-analysis { display: none; }
+  .portfolio-section.show-stats .stats-analysis { display: block; }
+  .stats-analysis {
+    background: #f3f6fb;
+    border-left: 4px solid #33475b;
+    border-radius: 4px;
+    padding: 14px 20px;
+    margin: 18px 0;
   }
+  .stats-analysis p { margin: 0 0 0.8em 0; font-size: 15px; }
+  .stats-analysis > :last-child { margin-bottom: 0; }
+  .stats-analysis strong { color: #1f3a5f; }
 
   /* ---- Tables: colored header row, alternating row shading ---- */
   table.dataframe, .jp-RenderedMarkdown table {
@@ -8091,7 +8105,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><button class="code-toggle">Show code</button><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=0668a740">
+</div><div class="toggle-row"><button class="toggle-btn" data-toggle="code">See code</button></div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=0668a740">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8249,7 +8263,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><button class="code-toggle">Show code</button><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a5df73c4">
+</div><div class="toggle-row"><button class="toggle-btn" data-toggle="code">See code</button></div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a5df73c4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8337,7 +8351,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><button class="code-toggle">Show code</button><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3300f950">
+</div><div class="toggle-row"><button class="toggle-btn" data-toggle="stats">See statistical analysis</button><button class="toggle-btn" data-toggle="code">See code</button></div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3300f950">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8391,7 +8405,21 @@ a.anchor-link {
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7b638924">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="stats-analysis">
+<p><strong>Under the hood.</strong> These are raw win rates straight from the game logs, not model predictions, so there is nothing fitted and no assumptions to check. Each bar is just the share of games won in that situation across all 13 seasons.</p>
+<p>The buckets are big enough to trust: the toughest spot (away, back-to-back, vs a winning team) still has over 1,700 games, and the baseline covers about 31,000 team-games. Because the outcome is binary (win or loss), the right significance test here would be a chi-square test or logistic regression, not ANOVA.</p>
+</div>
+</div>
+</div>
+</div>
 </div></section>
+
 <section class="portfolio-section"><div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cda8b5b9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8402,7 +8430,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><button class="code-toggle">Show code</button><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ba5a9aca">
+</div><div class="toggle-row"><button class="toggle-btn" data-toggle="stats">See statistical analysis</button><button class="toggle-btn" data-toggle="code">See code</button></div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ba5a9aca">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8469,7 +8497,20 @@ a.anchor-link {
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b4441e81">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="stats-analysis">
+<p><strong>Is the gap real or just noise?</strong> A one-way ANOVA across teams on season-total miles confirms it: F ≈ 11, p ≈ 7e-19, and eta-squared ≈ 0.78. The eta-squared is the number that matters: about 78% of the variation in how far teams fly is explained purely by which team they are. With this many games a small p-value is almost guaranteed, so effect size, not p, is the honest measure, and 0.78 is huge.</p>
+</div>
+</div>
+</div>
+</div>
 </div></section>
+
 <section class="portfolio-section"><div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=673747ac">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8481,7 +8522,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><button class="code-toggle">Show code</button><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bab919c1">
+</div><div class="toggle-row"><button class="toggle-btn" data-toggle="stats">See statistical analysis</button><button class="toggle-btn" data-toggle="code">See code</button></div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bab919c1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8566,7 +8607,21 @@ a.anchor-link {
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f00631d5">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="stats-analysis">
+<p><strong>The test.</strong> For each feature I take every team's absolute deviation from the league average in the early window and the recent window, then run a paired, one-sided Wilcoxon signed-rank test. Paired because the same 30 teams appear in both windows; rank-based because n = 30 and the deviations are not assumed normal; one-sided because the league set out specifically to reduce congestion.</p>
+<p><strong>Results.</strong> Back-to-backs: 45% smaller, p = 0.009. 4-in-6: 36% smaller, p = 0.035. Travel: 14% smaller, p = 0.073. With three tests a Bonferroni cutoff is 0.05 / 3 = 0.0167, so back-to-backs clears it, 4-in-6 is significant only before correction, and travel is not significant.</p>
+</div>
+</div>
+</div>
+</div>
 </div></section>
+
 <section class="portfolio-section"><div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=76cebf56">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8579,7 +8634,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><button class="code-toggle">Show code</button><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=632642a3">
+</div><div class="toggle-row"><button class="toggle-btn" data-toggle="stats">See statistical analysis</button><button class="toggle-btn" data-toggle="code">See code</button></div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=632642a3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8720,11 +8775,35 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p class="callout"><strong>Reading the coefficients:</strong> The model implies that a team on the road already faces roughly 44/56 odds against the home team. A few of the factors I studied have a slight positive impact on win probability. Interestingly, every added consecutive away game increases the win%. I'd speculate that the first away game carries the highest loss probability, and that each additional game away lets the team adjust to the time-zone or environment change.</p>
-<h3 id="Calendar-heatmap-of-game-difficulty">Calendar heatmap of game difficulty<a class="anchor-link" href="#Calendar-heatmap-of-game-difficulty">¶</a></h3><p>This chart is a calendar that fills in each game day with a color and its predicted loss probability. Greener days are games made easier as a result of a team's schedule, redder days are more difficult. I chose SAC and HOU for the 25-26 season as they had the most difficult and easiest predicted schedules, respectively.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=32535b34">
+</div><div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=97a7dd4b">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="stats-analysis">
+<p><strong>The model.</strong> A logistic regression predicting loss versus win from the nine schedule features, with the numeric features standardized. Coefficients are shown as odds ratios: above 1 means the factor raises the odds of losing. Trained on 2013-14 through 2023-24 and evaluated on the held-out 2025-26 season (see Model Evaluation).</p>
+</div>
+</div>
+</div>
+</div>
+</div></section>
+
+
+<section class="portfolio-section"><div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c390efac">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Section-Six:-A-Calendar-of-Schedule-Difficulty">Section Six: A Calendar of Schedule Difficulty<a class="anchor-link" href="#Section-Six:-A-Calendar-of-Schedule-Difficulty">¶</a></h2><p>This chart is a calendar that fills in each game day with a color and its predicted loss probability. Greener days are games made easier as a result of a team's schedule, redder days are more difficult. I chose SAC and HOU for the 25-26 season as they had the most difficult and easiest predicted schedules, respectively.</p>
+</div>
+</div>
+</div>
+</div><div class="toggle-row"><button class="toggle-btn" data-toggle="code">See code</button></div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=32535b34">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8869,7 +8948,6 @@ Easiest 2025-26 schedule (avg SDS): HOU (0.481)
 </div>
 </div></section>
 
-
 <section class="portfolio-section"><div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b0fd1c0b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8880,7 +8958,7 @@ Easiest 2025-26 schedule (avg SDS): HOU (0.481)
 </div>
 </div>
 </div>
-</div><button class="code-toggle">Show code</button><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=69a92d69">
+</div><div class="toggle-row"><button class="toggle-btn" data-toggle="code">See code</button></div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=69a92d69">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9020,11 +9098,14 @@ Easiest 2025-26 schedule (avg SDS): HOU (0.481)
 </div>
 
 <script>
-  document.querySelectorAll('.code-toggle').forEach(function(btn) {
+  document.querySelectorAll('.toggle-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
-      var section = btn.closest('.portfolio-section');
-      var on = section.classList.toggle('show-code');
-      btn.textContent = on ? 'Hide code' : 'Show code';
+      var sec = btn.closest('.portfolio-section');
+      var which = btn.getAttribute('data-toggle');
+      var on = sec.classList.toggle(which === 'code' ? 'show-code' : 'show-stats');
+      btn.textContent = which === 'code'
+        ? (on ? 'Hide code' : 'See code')
+        : (on ? 'Hide statistical analysis' : 'See statistical analysis');
     });
   });
 </script>

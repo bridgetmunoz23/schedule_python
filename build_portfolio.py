@@ -154,7 +154,10 @@ CUSTOM_CSS = """
   }
   .portfolio-section .jp-CodeCell .jp-Cell-inputWrapper { display: none; }
   .portfolio-section.show-code .jp-CodeCell .jp-Cell-inputWrapper { display: block; }
-  .code-toggle {
+
+  /* ---- Two-layer disclosure buttons (analyst stats + code) ---- */
+  .toggle-row { margin: 2px 0 20px; }
+  .toggle-btn {
     display: inline-block;
     background: white;
     border: 1px solid #2c6cb0;
@@ -165,13 +168,24 @@ CUSTOM_CSS = """
     font-size: 13px;
     font-weight: 500;
     font-family: inherit;
-    margin: 4px 0 20px;
+    margin: 0 8px 0 0;
     transition: background 0.15s, color 0.15s;
   }
-  .code-toggle:hover {
-    background: #2c6cb0;
-    color: white;
+  .toggle-btn:hover { background: #2c6cb0; color: white; }
+
+  /* ---- Analyst layer: hidden until "See statistical analysis" ---- */
+  .portfolio-section .stats-analysis { display: none; }
+  .portfolio-section.show-stats .stats-analysis { display: block; }
+  .stats-analysis {
+    background: #f3f6fb;
+    border-left: 4px solid #33475b;
+    border-radius: 4px;
+    padding: 14px 20px;
+    margin: 18px 0;
   }
+  .stats-analysis p { margin: 0 0 0.8em 0; font-size: 15px; }
+  .stats-analysis > :last-child { margin-bottom: 0; }
+  .stats-analysis strong { color: #1f3a5f; }
 
   /* ---- Tables: colored header row, alternating row shading ---- */
   table.dataframe, .jp-RenderedMarkdown table {
@@ -238,11 +252,14 @@ CUSTOM_CSS = """
 
 TOGGLE_SCRIPT = """
 <script>
-  document.querySelectorAll('.code-toggle').forEach(function(btn) {
+  document.querySelectorAll('.toggle-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
-      var section = btn.closest('.portfolio-section');
-      var on = section.classList.toggle('show-code');
-      btn.textContent = on ? 'Hide code' : 'Show code';
+      var sec = btn.closest('.portfolio-section');
+      var which = btn.getAttribute('data-toggle');
+      var on = sec.classList.toggle(which === 'code' ? 'show-code' : 'show-stats');
+      btn.textContent = which === 'code'
+        ? (on ? 'Hide code' : 'See code')
+        : (on ? 'Hide statistical analysis' : 'See statistical analysis');
     });
   });
 </script>
@@ -309,11 +326,19 @@ def build(src="analysis.html", dst="index.html"):
             section.append(c.extract())
 
         has_code = any("jp-CodeCell" in (c.get("class") or []) for c in grp)
-        if has_code:
-            btn = soup.new_tag("button", **{"class": "code-toggle"})
-            btn.string = "Show code"
+        has_stats = any(c.find(class_="stats-analysis") for c in grp)
+        if has_code or has_stats:
+            row = soup.new_tag("div", **{"class": "toggle-row"})
+            if has_stats:
+                b = soup.new_tag("button", **{"class": "toggle-btn", "data-toggle": "stats"})
+                b.string = "See statistical analysis"
+                row.append(b)
+            if has_code:
+                b = soup.new_tag("button", **{"class": "toggle-btn", "data-toggle": "code"})
+                b.string = "See code"
+                row.append(b)
             # Insert after the heading cell (first cell in the section)
-            grp[0].insert_after(btn)
+            grp[0].insert_after(row)
 
     _mark_callouts(soup)
     _wrap_label_callouts(soup)
