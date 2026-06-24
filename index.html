@@ -8994,6 +8994,7 @@ Easiest 2025-26 schedule (avg SDS): HOU (0.481)
 <li>All game logs and schedules are from <code>nba_api.stats.endpoints.LeagueGameLog</code>, regular season only, 2013-14 through the most recent season. Graphs and models will automatically update upon completion of the 26-27 season.</li>
 <li>The SDS model uses logistic regression with standardized numeric features. Features and target definitions live in <code>features.py</code> and <code>model.py</code>.</li>
 <li>Travel distance is the great-circle miles between a team's consecutive game cities, computed from home-city coordinates hardcoded in <code>data.py</code>.</li>
+<li>Section Four uses a paired, one-sided Wilcoxon signed-rank test on each team's deviation from the league average, with three pre-specified directional hypotheses.</li>
 </ul>
 </div>
 </div>
