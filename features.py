@@ -59,6 +59,30 @@ def _add_travel(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def _haversine(lat1, lon1, lat2, lon2):
+    # great-circle distance in miles
+    R = 3959.0
+    p = np.pi / 180
+    a = (np.sin((lat2 - lat1) * p / 2) ** 2
+         + np.cos(lat1 * p) * np.cos(lat2 * p) * np.sin((lon2 - lon1) * p / 2) ** 2)
+    return 2 * R * np.arcsin(np.sqrt(a))
+
+
+def _add_travel_distance(df: pd.DataFrame) -> pd.DataFrame:
+    # miles flown from the previous game's city to this game's city
+    from data import TEAM_LOCATION
+    lat = {t: v[0] for t, v in TEAM_LOCATION.items()}
+    lon = {t: v[1] for t, v in TEAM_LOCATION.items()}
+    out = df.sort_values(["season", "team", "gamedate"]).reset_index(drop=True)
+    host = np.where(out["home"] == 1, out["team"], out["opponent"])   # where the game is played
+    out["_glat"] = pd.Series(host, index=out.index).map(lat)
+    out["_glon"] = pd.Series(host, index=out.index).map(lon)
+    g = out.groupby(["season", "team"], sort=False)
+    out["travel_distance"] = _haversine(g["_glat"].shift(), g["_glon"].shift(),
+                                        out["_glat"], out["_glon"])
+    return out.drop(columns=["_glat", "_glon"])
+
+
 def _add_opp_prior_win_pct(df: pd.DataFrame) -> pd.DataFrame:
     # opponent's win pct going into each game
     out = df.sort_values(["season", "team", "gamedate"]).copy()
@@ -81,6 +105,7 @@ def build_features(schedule: pd.DataFrame) -> pd.DataFrame:
     # run all the feature steps
     out = _add_rest(schedule)
     out = _add_travel(out)
+    out = _add_travel_distance(out)
     out = _add_opp_prior_win_pct(out)
     out["is_nonconference"] = out["is_nonconf"]
     return out
