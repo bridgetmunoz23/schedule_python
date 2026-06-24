@@ -8431,8 +8431,6 @@ a.anchor-link {
 <span class="n">grand</span> <span class="o">=</span> <span class="n">season_tot</span><span class="p">[</span><span class="s1">'travel_distance'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">ss_b</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">grand</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">)</span>
 <span class="n">eta2</span> <span class="o">=</span> <span class="n">ss_b</span> <span class="o">/</span> <span class="p">((</span><span class="n">season_tot</span><span class="p">[</span><span class="s1">'travel_distance'</span><span class="p">]</span> <span class="o">-</span> <span class="n">grand</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ANOVA, season miles by team: F=</span><span class="si">{</span><span class="n">F</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="n">pval</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">, eta^2=</span><span class="si">{</span><span class="n">eta2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> "</span>
-      <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">eta2</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">% of the variation in season travel is explained by which team you are)"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">team_mi</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span><span class="si">}</span><span class="s2"> flies </span><span class="si">{</span><span class="n">team_mi</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2"> mi/season vs </span><span class="si">{</span><span class="n">team_mi</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()</span><span class="si">}</span><span class="s2"> at "</span>
       <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">team_mi</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">  -&gt;  a </span><span class="si">{</span><span class="n">team_mi</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">-</span><span class="n">team_mi</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2"> mile gap"</span><span class="p">)</span>
 
@@ -8459,8 +8457,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>ANOVA, season miles by team: F=11.0, p=6.8e-19, eta^2=0.78 (78% of the variation in season travel is explained by which team you are)
-POR flies 49,051 mi/season vs CLE at 35,905  -&gt;  a 13,146 mile gap
+<pre>POR flies 49,051 mi/season vs CLE at 35,905  -&gt;  a 13,146 mile gap
 </pre>
 </div>
 </div>
@@ -8535,7 +8532,6 @@ POR flies 49,051 mi/season vs CLE at 35,905  -&gt;  a 13,146 mile gap
     <span class="n">_</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">wilcoxon</span><span class="p">(</span><span class="n">dev_e</span><span class="p">,</span> <span class="n">dev_r</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s1">'greater'</span><span class="p">)</span>   <span class="c1"># one-sided: deviations shrank</span>
     <span class="n">drop</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dev_r</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="n">dev_e</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span>
     <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">lab</span><span class="p">,</span> <span class="n">drop</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">lab</span><span class="si">}</span><span class="s2">: deviation </span><span class="si">{</span><span class="n">drop</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">% smaller, one-sided paired Wilcoxon p=</span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'feature'</span><span class="p">,</span> <span class="s1">'reduction'</span><span class="p">,</span> <span class="s1">'p'</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'reduction'</span><span class="p">)</span>
 
@@ -8562,15 +8558,6 @@ POR flies 49,051 mi/season vs CLE at 35,905  -&gt;  a 13,146 mile gap
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Back-to-backs: deviation 45% smaller, one-sided paired Wilcoxon p=0.009
-4-in-6 stretches: deviation 36% smaller, one-sided paired Wilcoxon p=0.035
-Travel distance: deviation 14% smaller, one-sided paired Wilcoxon p=0.073
-</pre>
-</div>
-</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedImage jp-OutputArea-output" tabindex="0">
@@ -8623,102 +8610,102 @@ Travel distance: deviation 14% smaller, one-sided paired Wilcoxon p=0.073
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <style type="text/css">
-#T_fb0ce_row0_col1 {
+#T_f766b_row0_col1 {
   background-color: #9f1228;
   color: #f1f1f1;
 }
-#T_fb0ce_row1_col1 {
+#T_f766b_row1_col1 {
   background-color: #ce4f45;
   color: #f1f1f1;
 }
-#T_fb0ce_row2_col1 {
+#T_f766b_row2_col1 {
   background-color: #f8bda1;
   color: #000000;
 }
-#T_fb0ce_row3_col1 {
+#T_f766b_row3_col1 {
   background-color: #f0f4f6;
   color: #000000;
 }
-#T_fb0ce_row4_col1 {
+#T_f766b_row4_col1 {
   background-color: #f8f3f0;
   color: #000000;
 }
-#T_fb0ce_row5_col1, #T_fb0ce_row7_col1 {
+#T_f766b_row5_col1, #T_f766b_row7_col1 {
   background-color: #f7f5f4;
   color: #000000;
 }
-#T_fb0ce_row6_col1 {
+#T_f766b_row6_col1 {
   background-color: #f5f6f7;
   color: #000000;
 }
-#T_fb0ce_row8_col1 {
+#T_f766b_row8_col1 {
   background-color: #f7f6f6;
   color: #000000;
 }
 </style>
-<table id="T_fb0ce">
+<table id="T_f766b">
 <thead>
 <tr>
 <th class="blank level0"> </th>
-<th class="col_heading level0 col0" id="T_fb0ce_level0_col0">feature</th>
-<th class="col_heading level0 col1" id="T_fb0ce_level0_col1">coef</th>
-<th class="col_heading level0 col2" id="T_fb0ce_level0_col2">odds_ratio</th>
+<th class="col_heading level0 col0" id="T_f766b_level0_col0">feature</th>
+<th class="col_heading level0 col1" id="T_f766b_level0_col1">coef</th>
+<th class="col_heading level0 col2" id="T_f766b_level0_col2">odds_ratio</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<th class="row_heading level0 row0" id="T_fb0ce_level0_row0">0</th>
-<td class="data row0 col0" id="T_fb0ce_row0_col0">is_away</td>
-<td class="data row0 col1" id="T_fb0ce_row0_col1">0.592</td>
-<td class="data row0 col2" id="T_fb0ce_row0_col2">1.81</td>
+<th class="row_heading level0 row0" id="T_f766b_level0_row0">0</th>
+<td class="data row0 col0" id="T_f766b_row0_col0">is_away</td>
+<td class="data row0 col1" id="T_f766b_row0_col1">0.592</td>
+<td class="data row0 col2" id="T_f766b_row0_col2">1.81</td>
 </tr>
 <tr>
-<th class="row_heading level0 row1" id="T_fb0ce_level0_row1">1</th>
-<td class="data row1 col0" id="T_fb0ce_row1_col0">opp_prior_win_pct</td>
-<td class="data row1 col1" id="T_fb0ce_row1_col1">0.449</td>
-<td class="data row1 col2" id="T_fb0ce_row1_col2">1.57</td>
+<th class="row_heading level0 row1" id="T_f766b_level0_row1">1</th>
+<td class="data row1 col0" id="T_f766b_row1_col0">opp_prior_win_pct</td>
+<td class="data row1 col1" id="T_f766b_row1_col1">0.449</td>
+<td class="data row1 col2" id="T_f766b_row1_col2">1.57</td>
 </tr>
 <tr>
-<th class="row_heading level0 row2" id="T_fb0ce_level0_row2">2</th>
-<td class="data row2 col0" id="T_fb0ce_row2_col0">is_b2b</td>
-<td class="data row2 col1" id="T_fb0ce_row2_col1">0.214</td>
-<td class="data row2 col2" id="T_fb0ce_row2_col2">1.24</td>
+<th class="row_heading level0 row2" id="T_f766b_level0_row2">2</th>
+<td class="data row2 col0" id="T_f766b_row2_col0">is_b2b</td>
+<td class="data row2 col1" id="T_f766b_row2_col1">0.214</td>
+<td class="data row2 col2" id="T_f766b_row2_col2">1.24</td>
 </tr>
 <tr>
-<th class="row_heading level0 row3" id="T_fb0ce_level0_row3">3</th>
-<td class="data row3 col0" id="T_fb0ce_row3_col0">consecutive_away_games</td>
-<td class="data row3 col1" id="T_fb0ce_row3_col1">-0.026</td>
-<td class="data row3 col2" id="T_fb0ce_row3_col2">0.97</td>
+<th class="row_heading level0 row3" id="T_f766b_level0_row3">3</th>
+<td class="data row3 col0" id="T_f766b_row3_col0">consecutive_away_games</td>
+<td class="data row3 col1" id="T_f766b_row3_col1">-0.026</td>
+<td class="data row3 col2" id="T_f766b_row3_col2">0.97</td>
 </tr>
 <tr>
-<th class="row_heading level0 row4" id="T_fb0ce_level0_row4">4</th>
-<td class="data row4 col0" id="T_fb0ce_row4_col0">is_3in4</td>
-<td class="data row4 col1" id="T_fb0ce_row4_col1">0.020</td>
-<td class="data row4 col2" id="T_fb0ce_row4_col2">1.02</td>
+<th class="row_heading level0 row4" id="T_f766b_level0_row4">4</th>
+<td class="data row4 col0" id="T_f766b_row4_col0">is_3in4</td>
+<td class="data row4 col1" id="T_f766b_row4_col1">0.020</td>
+<td class="data row4 col2" id="T_f766b_row4_col2">1.02</td>
 </tr>
 <tr>
-<th class="row_heading level0 row5" id="T_fb0ce_level0_row5">5</th>
-<td class="data row5 col0" id="T_fb0ce_row5_col0">is_nonconference</td>
-<td class="data row5 col1" id="T_fb0ce_row5_col1">0.010</td>
-<td class="data row5 col2" id="T_fb0ce_row5_col2">1.01</td>
+<th class="row_heading level0 row5" id="T_f766b_level0_row5">5</th>
+<td class="data row5 col0" id="T_f766b_row5_col0">is_nonconference</td>
+<td class="data row5 col1" id="T_f766b_row5_col1">0.010</td>
+<td class="data row5 col2" id="T_f766b_row5_col2">1.01</td>
 </tr>
 <tr>
-<th class="row_heading level0 row6" id="T_fb0ce_level0_row6">6</th>
-<td class="data row6 col0" id="T_fb0ce_row6_col0">rest_days</td>
-<td class="data row6 col1" id="T_fb0ce_row6_col1">-0.009</td>
-<td class="data row6 col2" id="T_fb0ce_row6_col2">0.99</td>
+<th class="row_heading level0 row6" id="T_f766b_level0_row6">6</th>
+<td class="data row6 col0" id="T_f766b_row6_col0">rest_days</td>
+<td class="data row6 col1" id="T_f766b_row6_col1">-0.009</td>
+<td class="data row6 col2" id="T_f766b_row6_col2">0.99</td>
 </tr>
 <tr>
-<th class="row_heading level0 row7" id="T_fb0ce_level0_row7">7</th>
-<td class="data row7 col0" id="T_fb0ce_row7_col0">is_4in6</td>
-<td class="data row7 col1" id="T_fb0ce_row7_col1">0.008</td>
-<td class="data row7 col2" id="T_fb0ce_row7_col2">1.01</td>
+<th class="row_heading level0 row7" id="T_f766b_level0_row7">7</th>
+<td class="data row7 col0" id="T_f766b_row7_col0">is_4in6</td>
+<td class="data row7 col1" id="T_f766b_row7_col1">0.008</td>
+<td class="data row7 col2" id="T_f766b_row7_col2">1.01</td>
 </tr>
 <tr>
-<th class="row_heading level0 row8" id="T_fb0ce_level0_row8">8</th>
-<td class="data row8 col0" id="T_fb0ce_row8_col0">days_since_home_game</td>
-<td class="data row8 col1" id="T_fb0ce_row8_col1">0.002</td>
-<td class="data row8 col2" id="T_fb0ce_row8_col2">1.00</td>
+<th class="row_heading level0 row8" id="T_f766b_level0_row8">8</th>
+<td class="data row8 col0" id="T_f766b_row8_col0">days_since_home_game</td>
+<td class="data row8 col1" id="T_f766b_row8_col1">0.002</td>
+<td class="data row8 col2" id="T_f766b_row8_col2">1.00</td>
 </tr>
 </tbody>
 </table>
