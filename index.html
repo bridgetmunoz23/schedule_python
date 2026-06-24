@@ -8347,7 +8347,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Section-Two:-Which-Games-Are-Winnable">Section Two: Which Games Are Winnable<a class="anchor-link" href="#Section-Two:-Which-Games-Are-Winnable">¶</a></h2><p>The schedule barely moves a team's season record, but at the single-game level it swings win probability a lot. The chart below shows win rate by schedule situation, from rested home games against weak teams to tired road games against strong ones.</p>
+<h2 id="Section-Two:-Which-Games-Are-Winnable">Section Two: Which Games Are Winnable<a class="anchor-link" href="#Section-Two:-Which-Games-Are-Winnable">¶</a></h2><p>The schedule barely moves a team's season record, but at the single-game level it swings win probability a lot. The chart below shows win rate by schedule situation, from rested home games against weak teams to tired road games against strong ones. An additional test confirms these differences are not just due to chance (see the statistical analysis).</p>
 </div>
 </div>
 </div>
@@ -8388,6 +8388,14 @@ a.anchor-link {
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Win rate by schedule situation'</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#1f3a5f'</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Significance check (reported in the statistical-analysis layer, not the visible output):</span>
+<span class="c1"># do win rates differ between the best and worst schedule spots? -&gt; chi-square test of independence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span> <span class="k">as</span> <span class="n">_stats</span>
+<span class="n">_best</span>  <span class="o">=</span> <span class="n">d</span><span class="p">[(</span><span class="n">d</span><span class="o">.</span><span class="n">home</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">rest_days</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">opp_prior_win_pct</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">)][</span><span class="s1">'win'</span><span class="p">]</span>
+<span class="n">_worst</span> <span class="o">=</span> <span class="n">d</span><span class="p">[(</span><span class="n">d</span><span class="o">.</span><span class="n">is_away</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_b2b</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">opp_prior_win_pct</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)][</span><span class="s1">'win'</span><span class="p">]</span>
+<span class="n">_tbl</span> <span class="o">=</span> <span class="p">[[</span><span class="n">_best</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="nb">len</span><span class="p">(</span><span class="n">_best</span><span class="p">)</span> <span class="o">-</span> <span class="n">_best</span><span class="o">.</span><span class="n">sum</span><span class="p">()],</span> <span class="p">[</span><span class="n">_worst</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="nb">len</span><span class="p">(</span><span class="n">_worst</span><span class="p">)</span> <span class="o">-</span> <span class="n">_worst</span><span class="o">.</span><span class="n">sum</span><span class="p">()]]</span>
+<span class="n">_chi2</span><span class="p">,</span> <span class="n">_p</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_stats</span><span class="o">.</span><span class="n">chi2_contingency</span><span class="p">(</span><span class="n">_tbl</span><span class="p">)</span>   <span class="c1"># chi2 ~ 809, p ~ 0 -&gt; not chance</span>
 </pre></div>
 </div>
 </div>
@@ -8421,7 +8429,7 @@ a.anchor-link {
 <li>Away, 2nd night of a back-to-back: n = 3,608</li>
 <li>Away, back-to-back, vs a winning team: n = 1,736</li>
 </ul>
-<p>Because the outcome is binary (win or loss), the right significance test here would be a chi-square test or logistic regression.</p>
+<p>Because the outcome is binary (win or loss), I use a chi-square test. Comparing the best spot (66%) with the worst (28%) gives chi-square = 809, p ≈ 0, so the difference is not due to chance.</p>
 </div>
 </div>
 </div>
@@ -8673,102 +8681,102 @@ a.anchor-link {
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <style type="text/css">
-#T_f766b_row0_col1 {
+#T_94a25_row0_col1 {
   background-color: #9f1228;
   color: #f1f1f1;
 }
-#T_f766b_row1_col1 {
+#T_94a25_row1_col1 {
   background-color: #ce4f45;
   color: #f1f1f1;
 }
-#T_f766b_row2_col1 {
+#T_94a25_row2_col1 {
   background-color: #f8bda1;
   color: #000000;
 }
-#T_f766b_row3_col1 {
+#T_94a25_row3_col1 {
   background-color: #f0f4f6;
   color: #000000;
 }
-#T_f766b_row4_col1 {
+#T_94a25_row4_col1 {
   background-color: #f8f3f0;
   color: #000000;
 }
-#T_f766b_row5_col1, #T_f766b_row7_col1 {
+#T_94a25_row5_col1, #T_94a25_row7_col1 {
   background-color: #f7f5f4;
   color: #000000;
 }
-#T_f766b_row6_col1 {
+#T_94a25_row6_col1 {
   background-color: #f5f6f7;
   color: #000000;
 }
-#T_f766b_row8_col1 {
+#T_94a25_row8_col1 {
   background-color: #f7f6f6;
   color: #000000;
 }
 </style>
-<table id="T_f766b">
+<table id="T_94a25">
 <thead>
 <tr>
 <th class="blank level0"> </th>
-<th class="col_heading level0 col0" id="T_f766b_level0_col0">feature</th>
-<th class="col_heading level0 col1" id="T_f766b_level0_col1">coef</th>
-<th class="col_heading level0 col2" id="T_f766b_level0_col2">odds_ratio</th>
+<th class="col_heading level0 col0" id="T_94a25_level0_col0">feature</th>
+<th class="col_heading level0 col1" id="T_94a25_level0_col1">coef</th>
+<th class="col_heading level0 col2" id="T_94a25_level0_col2">odds_ratio</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<th class="row_heading level0 row0" id="T_f766b_level0_row0">0</th>
-<td class="data row0 col0" id="T_f766b_row0_col0">is_away</td>
-<td class="data row0 col1" id="T_f766b_row0_col1">0.592</td>
-<td class="data row0 col2" id="T_f766b_row0_col2">1.81</td>
+<th class="row_heading level0 row0" id="T_94a25_level0_row0">0</th>
+<td class="data row0 col0" id="T_94a25_row0_col0">is_away</td>
+<td class="data row0 col1" id="T_94a25_row0_col1">0.592</td>
+<td class="data row0 col2" id="T_94a25_row0_col2">1.81</td>
 </tr>
 <tr>
-<th class="row_heading level0 row1" id="T_f766b_level0_row1">1</th>
-<td class="data row1 col0" id="T_f766b_row1_col0">opp_prior_win_pct</td>
-<td class="data row1 col1" id="T_f766b_row1_col1">0.449</td>
-<td class="data row1 col2" id="T_f766b_row1_col2">1.57</td>
+<th class="row_heading level0 row1" id="T_94a25_level0_row1">1</th>
+<td class="data row1 col0" id="T_94a25_row1_col0">opp_prior_win_pct</td>
+<td class="data row1 col1" id="T_94a25_row1_col1">0.449</td>
+<td class="data row1 col2" id="T_94a25_row1_col2">1.57</td>
 </tr>
 <tr>
-<th class="row_heading level0 row2" id="T_f766b_level0_row2">2</th>
-<td class="data row2 col0" id="T_f766b_row2_col0">is_b2b</td>
-<td class="data row2 col1" id="T_f766b_row2_col1">0.214</td>
-<td class="data row2 col2" id="T_f766b_row2_col2">1.24</td>
+<th class="row_heading level0 row2" id="T_94a25_level0_row2">2</th>
+<td class="data row2 col0" id="T_94a25_row2_col0">is_b2b</td>
+<td class="data row2 col1" id="T_94a25_row2_col1">0.214</td>
+<td class="data row2 col2" id="T_94a25_row2_col2">1.24</td>
 </tr>
 <tr>
-<th class="row_heading level0 row3" id="T_f766b_level0_row3">3</th>
-<td class="data row3 col0" id="T_f766b_row3_col0">consecutive_away_games</td>
-<td class="data row3 col1" id="T_f766b_row3_col1">-0.026</td>
-<td class="data row3 col2" id="T_f766b_row3_col2">0.97</td>
+<th class="row_heading level0 row3" id="T_94a25_level0_row3">3</th>
+<td class="data row3 col0" id="T_94a25_row3_col0">consecutive_away_games</td>
+<td class="data row3 col1" id="T_94a25_row3_col1">-0.026</td>
+<td class="data row3 col2" id="T_94a25_row3_col2">0.97</td>
 </tr>
 <tr>
-<th class="row_heading level0 row4" id="T_f766b_level0_row4">4</th>
-<td class="data row4 col0" id="T_f766b_row4_col0">is_3in4</td>
-<td class="data row4 col1" id="T_f766b_row4_col1">0.020</td>
-<td class="data row4 col2" id="T_f766b_row4_col2">1.02</td>
+<th class="row_heading level0 row4" id="T_94a25_level0_row4">4</th>
+<td class="data row4 col0" id="T_94a25_row4_col0">is_3in4</td>
+<td class="data row4 col1" id="T_94a25_row4_col1">0.020</td>
+<td class="data row4 col2" id="T_94a25_row4_col2">1.02</td>
 </tr>
 <tr>
-<th class="row_heading level0 row5" id="T_f766b_level0_row5">5</th>
-<td class="data row5 col0" id="T_f766b_row5_col0">is_nonconference</td>
-<td class="data row5 col1" id="T_f766b_row5_col1">0.010</td>
-<td class="data row5 col2" id="T_f766b_row5_col2">1.01</td>
+<th class="row_heading level0 row5" id="T_94a25_level0_row5">5</th>
+<td class="data row5 col0" id="T_94a25_row5_col0">is_nonconference</td>
+<td class="data row5 col1" id="T_94a25_row5_col1">0.010</td>
+<td class="data row5 col2" id="T_94a25_row5_col2">1.01</td>
 </tr>
 <tr>
-<th class="row_heading level0 row6" id="T_f766b_level0_row6">6</th>
-<td class="data row6 col0" id="T_f766b_row6_col0">rest_days</td>
-<td class="data row6 col1" id="T_f766b_row6_col1">-0.009</td>
-<td class="data row6 col2" id="T_f766b_row6_col2">0.99</td>
+<th class="row_heading level0 row6" id="T_94a25_level0_row6">6</th>
+<td class="data row6 col0" id="T_94a25_row6_col0">rest_days</td>
+<td class="data row6 col1" id="T_94a25_row6_col1">-0.009</td>
+<td class="data row6 col2" id="T_94a25_row6_col2">0.99</td>
 </tr>
 <tr>
-<th class="row_heading level0 row7" id="T_f766b_level0_row7">7</th>
-<td class="data row7 col0" id="T_f766b_row7_col0">is_4in6</td>
-<td class="data row7 col1" id="T_f766b_row7_col1">0.008</td>
-<td class="data row7 col2" id="T_f766b_row7_col2">1.01</td>
+<th class="row_heading level0 row7" id="T_94a25_level0_row7">7</th>
+<td class="data row7 col0" id="T_94a25_row7_col0">is_4in6</td>
+<td class="data row7 col1" id="T_94a25_row7_col1">0.008</td>
+<td class="data row7 col2" id="T_94a25_row7_col2">1.01</td>
 </tr>
 <tr>
-<th class="row_heading level0 row8" id="T_f766b_level0_row8">8</th>
-<td class="data row8 col0" id="T_f766b_row8_col0">days_since_home_game</td>
-<td class="data row8 col1" id="T_f766b_row8_col1">0.002</td>
-<td class="data row8 col2" id="T_f766b_row8_col2">1.00</td>
+<th class="row_heading level0 row8" id="T_94a25_level0_row8">8</th>
+<td class="data row8 col0" id="T_94a25_row8_col0">days_since_home_game</td>
+<td class="data row8 col1" id="T_94a25_row8_col1">0.002</td>
+<td class="data row8 col2" id="T_94a25_row8_col2">1.00</td>
 </tr>
 </tbody>
 </table>
