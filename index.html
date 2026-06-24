@@ -8412,8 +8412,16 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <div class="stats-analysis">
-<p><strong>Under the hood.</strong> These are raw win rates straight from the game logs, not model predictions, so there is nothing fitted and no assumptions to check. Each bar is just the share of games won in that situation across all 13 seasons.</p>
-<p>The buckets are big enough to trust: the toughest spot (away, back-to-back, vs a winning team) still has over 1,700 games, and the baseline covers about 31,000 team-games. Because the outcome is binary (win or loss), the right significance test here would be a chi-square test or logistic regression, not ANOVA.</p>
+<p><strong>Context.</strong> This data comes straight from the dataset and has not been modeled, just grouped and averaged by variable, the highs and lows are seen in the graph. Each bar is just the share of games won in that situation across all 13 seasons.</p>
+<p><strong>Sample size.</strong></p>
+<ul>
+<li>Home, rested (2+ days), vs a losing team: n = 5,985</li>
+<li>Home, rested (2+ days): n = 13,161</li>
+<li>Any game (baseline): n = 30,948</li>
+<li>Away, 2nd night of a back-to-back: n = 3,608</li>
+<li>Away, back-to-back, vs a winning team: n = 1,736</li>
+</ul>
+<p>Because the outcome is binary (win or loss), the right significance test here would be a chi-square test or logistic regression.</p>
 </div>
 </div>
 </div>
